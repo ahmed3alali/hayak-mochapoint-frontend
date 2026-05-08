@@ -40,8 +40,8 @@ export default function FeaturedProducts() {
     addToCart({
       id: product.id,
       name: product.name_ar,
-      nameEn: product.name_en || '',
-      price: product.price,
+
+      price: Number(product.price),
       image: product.image_url || 'https://placehold.co/400x400/1e1e1e/D5C69E?text=Coffee',
     });
   };
@@ -51,8 +51,8 @@ export default function FeaturedProducts() {
     toggleFavorite({
       id: product.id,
       name: product.name_ar,
-      nameEn: product.name_en || '',
-      price: product.price,
+
+      price: Number(product.price),
       image: product.image_url || 'https://placehold.co/400x400/1e1e1e/D5C69E?text=Coffee',
     });
   };

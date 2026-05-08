@@ -12,7 +12,7 @@ export default function OffersAdminPage() {
   const [tab, setTab]               = useState<'offers'|'picks'>('offers');
   const [modal, setModal]           = useState<'add'|'edit'|null>(null);
   const [pickModal, setPickModal]   = useState<'add'|'edit'|null>(null);
-  const [curOffer, setCurOffer]     = useState<Partial<Offer>>({ image_url:'', alt_text:'', sort_order:0, is_active:true });
+  const [curOffer, setCurOffer]     = useState<Partial<Offer>>({ image_url:'', alt_text:'', alt_text_tr:'', sort_order:0, is_active:true });
   const [curPick, setCurPick]       = useState<Partial<DailyPick>>({ title:'', title_tr:'', subtitle:'', subtitle_tr:'', price:'', emoji:'😋', is_active:true });
   const [saving, setSaving]         = useState(false);
   const [deleting, setDeleting]     = useState<number|null>(null);
@@ -96,7 +96,7 @@ export default function OffersAdminPage() {
       {tab === 'offers' && (
         <div>
           <div className="flex justify-end mb-4">
-              <button onClick={() => { setCurOffer({image_url:'',alt_text:'',sort_order:0,is_active:true}); setModal('add'); setError(''); }}
+              <button onClick={() => { setCurOffer({image_url:'',alt_text:'',alt_text_tr:'',sort_order:0,is_active:true}); setModal('add'); setError(''); }}
               className="flex items-center gap-2 bg-[#3d2817] hover:bg-[#5a3a22] text-[#D5C69E] px-4 py-2 rounded-xl text-sm font-medium transition-all">
               <Plus className="w-4 h-4" /> {t('addOffer')}
             </button>
@@ -186,8 +186,10 @@ export default function OffersAdminPage() {
               </div>
               <div><label className="block text-xs text-white/50 mb-1.5">{t('imageUrl')}</label>
                 <input value={curOffer.image_url||''} onChange={e=>setCurOffer(c=>({...c,image_url:e.target.value}))} placeholder="https://..." className={inputCls} /></div>
-              <div><label className="block text-xs text-white/50 mb-1.5">{t('offerDescription')}</label>
-                <input value={curOffer.alt_text||''} onChange={e=>setCurOffer(c=>({...c,alt_text:e.target.value}))} placeholder={lang === 'ar' ? 'عرض الأسبوع' : 'Haftanın kampanyası'} className={inputCls} /></div>
+              <div><label className="block text-xs text-white/50 mb-1.5">{t('offerDescriptionAr') || 'الوصف (عربي)'}</label>
+                <input value={curOffer.alt_text||''} onChange={e=>setCurOffer(c=>({...c,alt_text:e.target.value}))} placeholder="عرض الأسبوع" className={inputCls} /></div>
+              <div><label className="block text-xs text-white/50 mb-1.5">{t('offerDescriptionTr') || 'الوصف (تركي)'}</label>
+                <input value={curOffer.alt_text_tr||''} onChange={e=>setCurOffer(c=>({...c,alt_text_tr:e.target.value}))} placeholder="Haftanın kampanyası" className={inputCls} /></div>
               <div><label className="block text-xs text-white/50 mb-1.5">{t('sortOrder')}</label>
                 <input type="number" value={curOffer.sort_order??0} onChange={e=>setCurOffer(c=>({...c,sort_order:parseInt(e.target.value)||0}))} className={inputCls} /></div>
               <button type="button" onClick={() => setCurOffer(c => ({...c, is_active: !c.is_active}))}

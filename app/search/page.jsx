@@ -32,9 +32,8 @@ export default function SearchPage() {
     : allProducts.filter(product => {
         const query = searchQuery.toLowerCase();
         const nameAr = product.name_ar?.toLowerCase() || '';
-        const nameEn = product.name_en?.toLowerCase() || '';
         const nameTr = product.name_tr?.toLowerCase() || '';
-        return nameAr.includes(query) || nameEn.includes(query) || nameTr.includes(query);
+        return nameAr.includes(query) || nameTr.includes(query);
       });
 
   const handleAddToCart = (product, e) => {
@@ -42,7 +41,6 @@ export default function SearchPage() {
     addToCart({
       id: product.id,
       name: product.name_ar,
-      nameEn: product.name_en || '',
       price: product.price,
       image: product.image_url || 'https://placehold.co/400x400/1e1e1e/D5C69E?text=Coffee',
     });
@@ -53,7 +51,6 @@ export default function SearchPage() {
     toggleFavorite({
       id: product.id,
       name: product.name_ar,
-      nameEn: product.name_en || '',
       price: product.price,
       image: product.image_url || 'https://placehold.co/400x400/1e1e1e/D5C69E?text=Coffee',
     });
@@ -150,7 +147,7 @@ export default function SearchPage() {
                       {lang === 'tr' && product.name_tr ? product.name_tr : product.name_ar}
                     </h3>
                     <p className="text-xs text-[#6b4423] mb-2 truncate">
-                      {product.name_en || '\u00A0'}
+                      {product.name_tr || '\u00A0'}
                     </p>
 
                     <div className="flex items-center justify-between mt-2">
@@ -244,7 +241,7 @@ export default function SearchPage() {
                 {lang === 'tr' && selectedProduct.name_tr ? selectedProduct.name_tr : selectedProduct.name_ar}
               </h3>
               <p className="text-sm text-[#6b4423] mb-4">
-                {selectedProduct.name_en}
+                {selectedProduct.name_tr || ''}
               </p>
 
               {/* Price */}

@@ -100,7 +100,7 @@ export default function ProductModal({
         </button>
 
         {/* Image */}
-        <div className="relative h-64 w-full overflow-hidden rounded-t-3xl bg-gray-100">
+        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-t-3xl bg-gray-100">
           <img
             src={product.image_url || 'https://placehold.co/400x400/1e1e1e/D5C69E?text=Coffee'}
             alt={product.name_ar}
@@ -113,7 +113,6 @@ export default function ProductModal({
           <h3 className="text-2xl font-bold text-[#3d2817] mb-1">
             {lang === 'tr' && product.name_tr ? product.name_tr : product.name_ar}
           </h3>
-          <p className="text-sm text-[#6b4423] mb-4">{product.name_en}</p>
 
           {/* ── Size selector ── */}
           {!loadingSizes && sizes.length > 0 && (

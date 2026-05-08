@@ -20,7 +20,8 @@ export default function CartPage() {
 
   // total
   const total = cart.reduce((sum, item) => {
-    return sum + (parseFloat(item.price) * item.quantity);
+    const validPrice = Number(String(item.price).replace(/[^0-9.]/g, '')) || 0;
+    return sum + (validPrice * item.quantity);
   }, 0);
 
   const handleCheckoutClick = () => {
@@ -40,7 +41,7 @@ export default function CartPage() {
         items: cart.map(item => ({
           id: item.id,
           name: item.name,
-          price: parseFloat(item.price),
+          price: Number(String(item.price).replace(/[^0-9.]/g, '')) || 0,
           quantity: item.quantity
         }))
       });
@@ -131,11 +132,10 @@ export default function CartPage() {
                         {item.name}
                       </h3>
                       <p className="text-xs md:text-sm text-gray-500 mb-2 truncate">
-                        {item.nameEn}
                         {item.selectedSize && ` - ${item.selectedSize.name}`}
                       </p>
                       <p className="text-base md:text-lg font-bold text-[#3d2817]">
-                        ₺{item.price}
+                        ₺{Number(String(item.price).replace(/[^0-9.]/g, '')).toFixed(2)}
                       </p>
                     </div>
 

@@ -13,7 +13,7 @@ interface SizeRow {
 }
 
 const emptyProduct = {
-  name_ar: '', name_en: '', name_tr: '', price: 0,
+  name_ar: '', name_tr: '', price: 0,
   category_id: null as number | null, image_url: '',
   ingredients: '', ingredients_tr: '', badge: '', badge_tr: '',
   is_featured: false, is_active: true, sort_order: 0,
@@ -53,7 +53,7 @@ export default function ProductsAdminPage() {
   }
 
   const filtered = products.filter(p =>
-    p.name_ar.includes(search) || p.name_en?.toLowerCase().includes(search.toLowerCase())
+    p.name_ar.includes(search) || p.name_tr?.toLowerCase().includes(search.toLowerCase())
   );
 
   function openAdd() {
@@ -213,7 +213,6 @@ export default function ProductsAdminPage() {
                         }
                         <div>
                           <p className="font-medium text-white">{p.name_ar}</p>
-                          <p className="text-white/30 text-xs">{p.name_en}</p>
                         </div>
                       </div>
                     </td>
@@ -271,7 +270,6 @@ export default function ProductsAdminPage() {
 
               {[
                 { labelKey: 'nameInArabic',   key: 'name_ar', type: 'text',   placeholder: 'أمريكانو' },
-                { labelKey: 'nameInEnglish',  key: 'name_en', type: 'text',   placeholder: 'Americano' },
                 { labelKey: 'nameInTurkish',  key: 'name_tr', type: 'text',   placeholder: 'Americano (TR)' },
                 { labelKey: 'badgeAr',        key: 'badge',   type: 'text',   placeholder: 'القهوة' },
                 { labelKey: 'badgeTr',        key: 'badge_tr',type: 'text',   placeholder: 'Kahve' },

@@ -145,8 +145,26 @@ export const ordersApi = {
 };
 
 // ── Home ──────────────────────────────────────────────────────────────────────
+let homeDataCache: any = null;
+let homeDataPromise: Promise<any> | null = null;
+
+export const getHomeDataCache = () => homeDataCache;
+
 export const homeApi = {
-  getPublic: () => apiFetch<{ data: any }>('/home'),
+  getPublic: async (forceRefresh = false) => {
+    if (homeDataCache && !forceRefresh) return { data: homeDataCache };
+    if (homeDataPromise && !forceRefresh) return homeDataPromise;
+
+    homeDataPromise = apiFetch<{ data: any }>('/home').then(res => {
+      homeDataCache = res.data || (res as any).data;
+      return res;
+    }).catch(err => {
+      homeDataPromise = null;
+      throw err;
+    });
+
+    return homeDataPromise;
+  },
 };
 
 // ── Upload ────────────────────────────────────────────────────────────────────
@@ -174,7 +192,6 @@ export async function uploadImage(file: File): Promise<{ url: string }> {
 export interface Product {
   id: number;
   name_ar: string;
-  name_en: string | null;
   name_tr: string | null;
   price: number;
   category_id: number | null;
@@ -216,6 +233,7 @@ export interface Offer {
   id: number;
   image_url: string;
   alt_text: string | null;
+  alt_text_tr: string | null;
   sort_order: number;
   is_active: boolean;
 }

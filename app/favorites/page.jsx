@@ -75,8 +75,7 @@ export default function FavoritesPage() {
                     <h3 className="text-sm font-bold text-[#3d2817] mb-1 truncate">
                       {product.name}
                     </h3>
-                    <p className="text-xs text-[#6b4423] mb-2 truncate">
-                      {product.nameEn}
+                    <p className="text-xs text-[#6b4423] truncate mb-2">
                     </p>
 
                     <div className="flex items-center justify-between mt-2">

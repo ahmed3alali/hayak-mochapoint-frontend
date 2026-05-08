@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import { ShoppingCart, Heart, Phone, Search } from "lucide-react"
-import { homeApi } from '@/lib/api';
+import { homeApi, getHomeDataCache } from '@/lib/api';
 import Header from '@/app/components/Header';
 import HeroSlider from '@/app/components/Hero';
 import CategoriesSection from '@/app/components/Categories';
@@ -30,26 +30,25 @@ const categories = [
 const products = [
   {
     id: 1,
-    name: "موكا بالكراميل",
-    nameEn: "Mocha Caramel",
-    price: 9.99,
+    nameAr: "موكا بالكراميل",
+    price: "4.99",
     image: "/mocha-caramel-coffee-drink.jpg",
     category: "المشروبات",
   },
   {
     id: 2,
-    name: "أمريكانو",
-    nameEn: "Americano",
-    price: 9.99,
+    nameAr: "أمريكانو",
+    price: "3.50",
     image: "/americano-coffee.png",
     category: "القهوة",
   },
 ]
 
 export default function HomePage() {
-  const [loading, setLoading] = useState(true);
+  const cachedData = getHomeDataCache();
+  const [loading, setLoading] = useState(!cachedData);
   const { t, lang } = useLanguage();
-  const [homeData, setHomeData] = useState({
+  const [homeData, setHomeData] = useState(cachedData || {
     heroSlides: [],
     offers: [],
     dailyPicks: [],
@@ -59,6 +58,10 @@ export default function HomePage() {
   });
 
   useEffect(() => {
+    if (cachedData && !loading) {
+      // Just in case we want background refresh later, but for now we skip loading
+      setLoading(false);
+    }
     homeApi.getPublic()
       .then(res => {
         setHomeData(res.data || res.data.data);
@@ -95,21 +98,9 @@ export default function HomePage() {
 
         <HeroSlider data={homeData.heroSlides} />
 
-        <OffersAndDailyPicks offers={homeData.offers} dailyPicks={homeData.dailyPicks} />
-
         <CategoriesSection categories={homeData.categories} />
 
-        <CategoryProducts categories={homeData.categories} products={homeData.products} />
-
-        {/* All items button for home page */}
-        <div className="container mx-auto px-6 mb-8 mt-4 flex justify-center">
-          <Link
-            href="/menu"
-            className="w-full max-w-md bg-[#3d2817] hover:bg-[#5a3f2a] text-[#D5C69E] py-4 rounded-2xl font-bold text-lg transition-all hover:shadow-lg flex items-center justify-center"
-          >
-            {t('allCategories')}
-          </Link>
-        </div>
+        <OffersAndDailyPicks offers={homeData.offers} dailyPicks={homeData.dailyPicks} />
 
         <ReviewsSection reviews={homeData.reviews} />
 

@@ -5,14 +5,15 @@ import CategoryProducts from '@/app/components/CategoryProducts';
 import OffersAndDailyPicks from '@/app/components/Offers';
 import ReviewsSection from '@/app/components/Reviews';
 import BottomBar from '@/components/Bar/BottomBar';
-import { homeApi } from '@/lib/api';
+import { homeApi, getHomeDataCache } from '@/lib/api';
 import Link from 'next/link';
 import { useLanguage } from '@/lib/LanguageContext';
 
 export default function MenuPage() {
-  const [loading, setLoading] = useState(true);
+  const cachedData = getHomeDataCache();
+  const [loading, setLoading] = useState(!cachedData);
   const { t, lang } = useLanguage();
-  const [homeData, setHomeData] = useState({
+  const [homeData, setHomeData] = useState(cachedData || {
     categories: [],
     products: [],
     offers: [],
@@ -21,6 +22,9 @@ export default function MenuPage() {
   });
 
   useEffect(() => {
+    if (cachedData && !loading) {
+      setLoading(false);
+    }
     homeApi.getPublic()
       .then((res: any) => {
         setHomeData(res.data || res.data.data);
@@ -28,6 +32,37 @@ export default function MenuPage() {
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
+
+  // Handle cross-page hash navigation after data loads
+  useEffect(() => {
+    if (!loading) {
+      const hash = typeof window !== 'undefined' ? window.location.hash : '';
+      if (hash) {
+        let attempts = 0;
+        const scrollInterval = setInterval(() => {
+          // Decode hash in case of special characters
+          const safeHash = decodeURIComponent(hash);
+          const element = document.querySelector(safeHash);
+          if (element) {
+            // Apply offset for fixed header
+            const headerOffset = 100;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+            clearInterval(scrollInterval);
+          }
+          attempts++;
+          if (attempts >= 15) clearInterval(scrollInterval); // Stop after 1.5s
+        }, 100);
+        
+        return () => clearInterval(scrollInterval);
+      }
+    }
+  }, [loading]);
 
   if (loading) {
     return (
@@ -127,8 +162,6 @@ export default function MenuPage() {
         </section>
 
         <CategoryProducts categories={homeData.categories} products={homeData.products} />
-        <OffersAndDailyPicks offers={homeData.offers} dailyPicks={homeData.dailyPicks} />
-        <ReviewsSection reviews={homeData.reviews} />
       </div>
 
       <BottomBar/>

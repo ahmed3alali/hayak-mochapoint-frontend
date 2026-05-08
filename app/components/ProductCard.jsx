@@ -21,7 +21,6 @@ export default function ProductCard({
   isMobile = false 
 }) {
   const cardWidth = isMobile ? '160px' : '280px';
-  const imgHeight = isMobile ? 'h-[120px]' : 'h-[200px]';
   const { lang } = useLanguage();
 
   return (
@@ -51,7 +50,7 @@ export default function ProductCard({
       </button>
 
       {/* Image */}
-      <div className={`relative ${imgHeight} w-full overflow-hidden bg-gray-100`}>
+      <div className={`relative aspect-[4/5] w-full overflow-hidden bg-gray-100`}>
         <img
           src={product.image_url || 'https://placehold.co/400x400/1e1e1e/D5C69E?text=Coffee'}
           alt={product.name_ar}

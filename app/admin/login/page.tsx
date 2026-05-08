@@ -90,8 +90,9 @@ export default function AdminLoginPage() {
         document.cookie = `admin_access_token=${token}; path=/; max-age=${maxAge}; samesite=lax`;
         document.cookie = `admin_email=${encodeURIComponent(mail)}; path=/; max-age=${maxAge}; samesite=lax`;
       } else {
-        document.cookie = `admin_access_token=${token}; path=/; samesite=lax`;
-        document.cookie = `admin_email=${encodeURIComponent(mail)}; path=/; samesite=lax`;
+        const maxAge = 24 * 60 * 60; // 24 hours
+        document.cookie = `admin_access_token=${token}; path=/; max-age=${maxAge}; samesite=lax`;
+        document.cookie = `admin_email=${encodeURIComponent(mail)}; path=/; max-age=${maxAge}; samesite=lax`;
       }
       router.replace('/admin/dashboard');
     } catch (err: any) {

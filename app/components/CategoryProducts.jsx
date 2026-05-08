@@ -29,7 +29,7 @@ function CategorySection({ title, products, sectionId, onSelectProduct }) {
     addToCart({
       id: product.id,
       name: product.name_ar,
-      nameEn: product.name_en || '',
+
       price: product.price,
       image: product.image_url || 'https://placehold.co/400x400/1e1e1e/D5C69E?text=Coffee',
       selectedSize: product.selectedSize,
@@ -42,8 +42,8 @@ function CategorySection({ title, products, sectionId, onSelectProduct }) {
     toggleFavorite({
       id: product.id,
       name: product.name_ar,
-      nameEn: product.name_en || '',
-      price: product.price,
+
+      price: Number(product.price),
       image: product.image_url || 'https://placehold.co/400x400/1e1e1e/D5C69E?text=Coffee',
     });
   };
@@ -146,7 +146,7 @@ export default function CategoryProducts({ categories = [], products = [] }) {
     addToCart({
       id: product.id,
       name: product.name_ar,
-      nameEn: product.name_en || '',
+
       price: product.price,
       image: product.image_url || 'https://placehold.co/400x400/1e1e1e/D5C69E?text=Coffee',
       selectedSize: product.selectedSize,
@@ -159,8 +159,8 @@ export default function CategoryProducts({ categories = [], products = [] }) {
     toggleFavorite({
       id: product.id,
       name: product.name_ar,
-      nameEn: product.name_en || '',
-      price: product.price,
+
+      price: Number(product.price),
       image: product.image_url || 'https://placehold.co/400x400/1e1e1e/D5C69E?text=Coffee',
     });
   };
