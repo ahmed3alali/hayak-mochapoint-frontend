@@ -26,7 +26,7 @@ export default function AppLoader({ children }: { children: React.ReactNode }) {
                 className="mp-logo-img"
               />
             </div>
-            <p className="mp-brand">Mocha Point</p>
+            <p className="mp-brand">Mocha Point </p>
             <div className="mp-dots">
               <span className="mp-dot" />
               <span className="mp-dot" />
