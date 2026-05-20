@@ -82,11 +82,11 @@ export default function AdminLoginPage() {
     setError('');
     setLoading(true);
     try {
-      const res = await authApi.verifyOtp(email, code);
+      const res = await authApi.verifyOtp(email, code, rememberMe);
       const token = (res as any).accessToken;
       const mail = (res as any).email;
       if (rememberMe) {
-        const maxAge = 30 * 24 * 60 * 60; // 30 days
+        const maxAge = 7 * 24 * 60 * 60; // 7 days
         document.cookie = `admin_access_token=${token}; path=/; max-age=${maxAge}; samesite=lax`;
         document.cookie = `admin_email=${encodeURIComponent(mail)}; path=/; max-age=${maxAge}; samesite=lax`;
       } else {

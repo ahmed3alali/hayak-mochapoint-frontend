@@ -53,10 +53,10 @@ export const authApi = {
   login: (email: string, password: string) =>
     apiFetch('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
 
-  verifyOtp: (email: string, otp: string) =>
+  verifyOtp: (email: string, otp: string, rememberMe?: boolean) =>
     apiFetch<{ accessToken: string; email: string }>('/auth/verify-otp', {
       method: 'POST',
-      body: JSON.stringify({ email, otp }),
+      body: JSON.stringify({ email, otp, rememberMe }),
     }),
 
   logout: (refreshToken?: string) =>
